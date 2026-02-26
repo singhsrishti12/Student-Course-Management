@@ -1,0 +1,100 @@
+<div class="container mt-4">
+
+  <h3 class="mb-3">Students</h3>
+
+  <button class="btn btn-primary mb-3" (click)="openCreate()">
+    Create Student
+  </button>
+
+  <div *ngIf="successMsg" class="alert alert-success">
+    {{ successMsg }}
+  </div>
+
+  <div *ngIf="errorMsg" class="alert alert-danger">
+    {{ errorMsg }}
+  </div>
+
+  <div *ngIf="loading" class="text-center">
+    <div class="spinner-border text-primary"></div>
+  </div>
+
+  <table class="table table-bordered table-striped" *ngIf="!loading">
+    <thead class="table-dark">
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Enrollment Date</th>
+        <th width="180">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr *ngIf="students.length === 0">
+        <td colspan="5" class="text-center">No Students Found</td>
+      </tr>
+
+      <tr *ngFor="let s of students; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ s.name }}</td>
+        <td>{{ s.email }}</td>
+        <td>{{ s.enrollmentDate | date:'short' }}</td>
+
+        <td>
+          <button class="btn btn-sm btn-warning me-2"
+                  (click)="openEdit(s)">
+            Update
+          </button>
+
+          <button class="btn btn-sm btn-danger"
+                  (click)="deleteStudent(s.id)">
+            Delete
+          </button>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+
+</div>
+
+
+<!-- Create / Update Form -->
+<div class="container mt-4" *ngIf="showForm">
+
+  <div class="card">
+    <div class="card-header">
+      {{ isEditing ? 'Update Student' : 'Create Student' }}
+    </div>
+
+    <div class="card-body">
+
+      <div class="mb-3">
+        <label>Name</label>
+        <input type="text"
+               class="form-control"
+               [(ngModel)]="form.name">
+      </div>
+
+      <div class="mb-3">
+        <label>Email</label>
+        <input type="email"
+               class="form-control"
+               [(ngModel)]="form.email">
+      </div>
+
+      <button class="btn btn-success me-2"
+              (click)="saveStudent()">
+        {{ isEditing ? 'Update' : 'Create' }}
+      </button>
+
+      <button class="btn btn-secondary"
+              (click)="cancel()">
+        Cancel
+      </button>
+
+    </div>
+  </div>
+
+</div>
